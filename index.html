@@ -87,11 +87,59 @@
 
 
 
+<!--  -->
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
+
+
+ 
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAngaRYpto2-UXa62-Rx-YJAHtOa8fakDw",
+      authDomain: "wifi-75025.firebaseapp.com",
+      databaseURL: "https://wifi-75025-default-rtdb.firebaseio.com",
+      projectId: "wifi-75025",
+      storageBucket: "wifi-75025.firebasestorage.app",
+      messagingSenderId: "865012452777",
+      appId: "1:865012452777:web:c11f00e75326cf8ccd88b8",
+      measurementId: "G-6SRG7MV64G"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const senderId = 'sender-' + Math.random().toString(36).slice(2, 8);
+    const inputBox = document.getElementById('inputBox');
+
+    // Handle normal keypresses (mobile-friendly)
+    inputBox.addEventListener('input', (e) => {
+      const value = e.target.value;
+      if (!value) return;
+      const lastChar = value.slice(-1);
+      sendKey(lastChar);
+    });
+
+    // Handle special keys (desktop + mobile hardware keyboards)
+    inputBox.addEventListener('keydown', (e) => {
+      const specialKeys = ['Backspace', 'Enter', 'Tab', 'Shift', 'Escape', ' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+      if (specialKeys.includes(e.key)) {
+        sendKey(e.key === ' ' ? 'Space' : e.key);
+      }
+    });
+
+    function sendKey(keyValue) {
+      const timestamp = Date.now();
+      db.ref('keys').push({
+        key: keyValue,
+        ts: timestamp,
+        from: senderId
+      }).catch(err => console.error(err));
+    }
+  </script>
+
+
+  <!-- <script>
     // ----- PASTE YOUR FIREBASE CONFIG HERE -----
     const firebaseConfig = {
      apiKey: "AIzaSyAngaRYpto2-UXa62-Rx-YJAHtOa8fakDw",
@@ -121,6 +169,7 @@
         from: senderId
       }).catch(err => console.error(err));
     });
-  </script>
+  </script> -->
 </body>
 </html>
+
