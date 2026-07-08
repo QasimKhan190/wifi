@@ -95,16 +95,23 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAngaRYpto2-UXa62-Rx-YJAHtOa8fakDw",
-      authDomain: "wifi-75025.firebaseapp.com",
-      databaseURL: "https://wifi-75025-default-rtdb.firebaseio.com",
-      projectId: "wifi-75025",
-      storageBucket: "wifi-75025.firebasestorage.app",
-      messagingSenderId: "865012452777",
-      appId: "1:865012452777:web:c11f00e75326cf8ccd88b8",
-      measurementId: "G-6SRG7MV64G"
-    };
+   // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAwqfnTA2aMg_uic56L0zQQJ0F6voL8m-8",
+  authDomain: "wifi-ee2ea.firebaseapp.com",
+  projectId: "wifi-ee2ea",
+  storageBucket: "wifi-ee2ea.firebasestorage.app",
+  messagingSenderId: "659634771001",
+  appId: "1:659634771001:web:b9f8b453b26fcd248fe9e8",
+  measurementId: "G-RMT979QC8V"
+};
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
